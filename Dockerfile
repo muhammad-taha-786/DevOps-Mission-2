@@ -19,7 +19,9 @@ ENV NODE_ENV=production
 
 # Copy only package files and install production deps only
 COPY package.json package-lock.json ./
-RUN npm ci --omit=dev && npm cache clean --force
+RUN npm ci --omit=dev --no-audit --no-fund \
+    && npm cache clean --force \
+    && rm -rf /root/.npm /tmp/* /usr/local/lib/node_modules/npm/docs /usr/local/lib/node_modules/npm/man
 
 # Copy backend entry file
 COPY index.js ./
